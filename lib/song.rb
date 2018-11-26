@@ -12,7 +12,7 @@ class Song
 
   def self.create
     song = self.new
-    @@all << song
+    song.save
     return song
   end
 
@@ -43,17 +43,23 @@ class Song
   end
 
   def self.new_from_filename(filename)
-   song = self.new
-   song.name = filename.split(" - ")[1].split(".")[0]
-   song.artist_name = filename.split(" - ")[0]
-   return song
+    item = filename
+
+      data = item.split(" - ")
+      artist_name = data[0]
+      name = data[1].gsub(".mp3" , "")
+
+    song = self.new
+    song.name = name
+    song.artist_name = artist_name
+    return song
   end
 
   def self.create_from_filename(filename)
-    song = self.new
-    song.name = filename.split(" - ")[1].split(".")[0]
-    song.artist_name = filename.split(" - ")[0]
+
+    song = self.new_from_filename(filename)
     @@all << song
+
   end
 
   def self.destroy_all
